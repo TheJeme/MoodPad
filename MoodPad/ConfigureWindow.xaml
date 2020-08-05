@@ -21,6 +21,7 @@
                 <ComboBoxItem Content="Custom"/>
             </ComboBox>
         </StackPanel>
+        
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,50">
             <GroupBox Header="Colors" Width="200" Margin="5">
                 <StackPanel Margin="10" VerticalAlignment="Center">
@@ -68,9 +69,11 @@
                             <ComboBoxItem Content="29"/>
                             <ComboBoxItem Content="32"/>
                             <ComboBoxItem Content="36"/>
+                            <ComboBoxItem Content="69"/>
                             <ComboBoxItem Content="48"/>
                             <ComboBoxItem Content="72"/>
                             <ComboBoxItem Content="96"/>
+                            <ComboBoxItem Content="420"/>
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Margin="7">

@@ -7,6 +7,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
+using MoodPad.Properties;
+
 namespace MoodPad
 {
     /// <summary>
@@ -16,12 +18,49 @@ namespace MoodPad
     {
         public List<TextBox> listOfTextBoxes;
 
+        public Color fontColor, backgroundColor, backgroundColor2;
+
         public MainWindow()
         {
             InitializeComponent();
 
             listOfTextBoxes = new List<TextBox>();
             MakeNewTab();
+
+            ConfigureStyle();
+        }
+
+        private void ConfigureStyle()
+        {
+            fontColor = (Color)ColorConverter.ConvertFromString(Settings.Default["FontColor"].ToString());
+            backgroundColor = (Color)ColorConverter.ConvertFromString(Settings.Default["BackgroundColor"].ToString());
+            backgroundColor2 = (Color)ColorConverter.ConvertFromString(Settings.Default["BackgroundColor2"].ToString());
+
+            FindPanel.Background = new SolidColorBrush(backgroundColor2);
+
+            foreach (var txtbox in listOfTextBoxes)
+            {
+                txtbox.Background = new SolidColorBrush(backgroundColor);
+                txtbox.Foreground = new SolidColorBrush(fontColor);
+                txtbox.FontSize = Convert.ToDouble(Settings.Default["FontSize"]);
+
+                if (Convert.ToBoolean(Settings.Default["IsBold"]))
+                {
+                    txtbox.FontWeight = FontWeights.Bold;
+                }
+                if (Convert.ToBoolean(Settings.Default["IsItalic"]))
+                {
+                    txtbox.FontStyle = FontStyles.Italic;
+                }
+                if (Convert.ToBoolean(Settings.Default["IsUnderline"]))
+                {
+                    txtbox.TextDecorations = TextDecorations.Underline;
+                }
+                if (Convert.ToBoolean(Settings.Default["IsWrapText"]))
+                {
+                    txtbox.TextWrapping = TextWrapping.Wrap;
+                }
+            }
         }
 
         private void MakeNewTab()
@@ -33,7 +72,14 @@ namespace MoodPad
             TextBlock tb = new TextBlock();
             tb.Text = "New Page";
             Button b = new Button();
-            b.Content = " X ";
+            b.Content = "X";
+            b.FontWeight = FontWeights.Bold;
+            b.Width = 20;
+            b.Height = 20;
+            b.Foreground = new SolidColorBrush(Colors.White);
+            b.Background = new SolidColorBrush(Colors.Transparent);
+            b.BorderThickness = new Thickness(0);
+            b.Margin = new Thickness(10,0,0,0);
 
             sp.Orientation = Orientation.Horizontal;
             sp.Children.Add(tb);
@@ -46,7 +92,6 @@ namespace MoodPad
             tbox.AcceptsReturn = true;
             tbox.AcceptsTab = true;
             tbox.Foreground = new SolidColorBrush(Colors.White);
-            tbox.FontSize = 15;
             tbox.Padding = new Thickness(2);
             tbox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             tbox.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;

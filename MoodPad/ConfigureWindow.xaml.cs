@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
+using MoodPad.Properties;
 
 namespace MoodPad
 {
@@ -22,6 +15,13 @@ namespace MoodPad
         public ConfigureWindow()
         {
             InitializeComponent();
+
+            SetConfigureSettings();
+        }
+
+        private void SetConfigureSettings()
+        {
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -36,7 +36,17 @@ namespace MoodPad
 
         private void Font_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            try
+            {
+                foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+                {
+                    txtbox.FontFamily = new FontFamily(fontFamilyBox.SelectedValue.ToString());
+                }
+            }
+            catch
+            {
 
+            }
         }
 
         private void Size_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -81,6 +91,8 @@ namespace MoodPad
             {
                 txtbox.FontWeight = FontWeights.Bold;
             }
+            Settings.Default["IsBold"] = true;
+            Settings.Default.Save();
         }
 
         private void BoldBox_Unchecked(object sender, RoutedEventArgs e)
@@ -89,6 +101,8 @@ namespace MoodPad
             {
                 txtbox.FontWeight = FontWeights.Normal;
             }
+            Settings.Default["IsBold"] = false;
+            Settings.Default.Save();
         }
 
         private void ItalicBox_Checked(object sender, RoutedEventArgs e)
@@ -97,6 +111,8 @@ namespace MoodPad
             {
                 txtbox.FontStyle = FontStyles.Italic;
             }
+            Settings.Default["IsItalic"] = true;
+            Settings.Default.Save();
         }
 
         private void ItalicBox_Unchecked(object sender, RoutedEventArgs e)
@@ -105,6 +121,8 @@ namespace MoodPad
             {
                 txtbox.FontStyle = FontStyles.Normal;
             }
+            Settings.Default["IsItalic"] = false;
+            Settings.Default.Save();
         }
 
         private void UnderlinedBox_Checked(object sender, RoutedEventArgs e)
@@ -113,6 +131,8 @@ namespace MoodPad
             {
                 txtbox.TextDecorations = TextDecorations.Underline;
             }
+            Settings.Default["IsUnderline"] = true;
+            Settings.Default.Save();
         }
 
         private void UnderlinedBox_Unchecked(object sender, RoutedEventArgs e)
@@ -121,6 +141,8 @@ namespace MoodPad
             {
                 txtbox.TextDecorations = null;
             }
+            Settings.Default["IsUnderline"] = false;
+            Settings.Default.Save();
         }
 
         private void WrapTextBox_Checked(object sender, RoutedEventArgs e)
@@ -129,6 +151,8 @@ namespace MoodPad
             {
                 txtbox.TextWrapping = TextWrapping.Wrap;
             }
+            Settings.Default["IsWrapText"] = true;
+            Settings.Default.Save();
         }
 
         private void WrapTextBox_Unchecked(object sender, RoutedEventArgs e)
@@ -137,6 +161,8 @@ namespace MoodPad
             {
                 txtbox.TextWrapping = TextWrapping.NoWrap;
             }
+            Settings.Default["IsWrapText"] = false;
+            Settings.Default.Save();
         }
     }
 }
