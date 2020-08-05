@@ -48,8 +48,8 @@
                     <MenuItem Header="Select All" Command="SelectAll"/>
                     <MenuItem Header="Find" Command="Find"/>
                 </MenuItem>
-                <MenuItem Header="Format">
-                    <MenuItem Header="Properties..."/>
+                <MenuItem Header="Style">
+                    <MenuItem Header="Configure..." Click="ConfigureItem_Click"/>
                 </MenuItem>
                 <MenuItem Header="Insert">
                     <MenuItem Header="Datetime" Click="DateTimeItem_Click"/>

@@ -75,18 +75,6 @@ namespace MoodPad
 
         private void ExitItem_Click(object sender, RoutedEventArgs e)
         {
-            if (1 == 1)
-            {
-                string msg = "You have not saved. Do you want to exit?";
-                MessageBoxResult result =
-                  MessageBox.Show(
-                    msg,
-                    "MoodPad",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Warning);
-
-                if (result == MessageBoxResult.No) return;
-            }
             Application.Current.Shutdown();
         }
 
@@ -97,16 +85,13 @@ namespace MoodPad
 
         }
 
-        private void FindItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         /** Menu Format Events **/
 
-        private void PropertiesItem_Click(object sender, RoutedEventArgs e)
+        private void ConfigureItem_Click(object sender, RoutedEventArgs e)
         {
-
+            var ConfigWin = new ConfigureWindow();
+            ConfigWin.Owner = this;
+            ConfigWin.Show();
         }
 
         /** Menu Insert Events **/
