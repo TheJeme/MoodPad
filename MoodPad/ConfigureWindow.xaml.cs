@@ -23,5 +23,120 @@ namespace MoodPad
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Theme_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Font_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Size_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+                {
+                    txtbox.FontSize = Convert.ToDouble((fontSizeBox.SelectedItem as ComboBoxItem).Content);
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void FontColor_Click(object sender, RoutedEventArgs e)
+        {
+            var colorpickWin = new ColorpickerWindow("Font");
+            colorpickWin.Owner = this;
+            colorpickWin.Show();
+        }
+
+        private void BackgroundColor_Click(object sender, RoutedEventArgs e)
+        {
+            var colorpickWin = new ColorpickerWindow("Background");
+            colorpickWin.Owner = this;
+            colorpickWin.Show();
+        }
+
+        private void BackgroundColor2_Click(object sender, RoutedEventArgs e)
+        {
+            var colorpickWin = new ColorpickerWindow("Background2");
+            colorpickWin.Owner = this;
+            colorpickWin.Show();
+        }
+
+        private void BoldBox_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+            {
+                txtbox.FontWeight = FontWeights.Bold;
+            }
+        }
+
+        private void BoldBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+            {
+                txtbox.FontWeight = FontWeights.Normal;
+            }
+        }
+
+        private void ItalicBox_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+            {
+                txtbox.FontStyle = FontStyles.Italic;
+            }
+        }
+
+        private void ItalicBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+            {
+                txtbox.FontStyle = FontStyles.Normal;
+            }
+        }
+
+        private void UnderlinedBox_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+            {
+                txtbox.TextDecorations = TextDecorations.Underline;
+            }
+        }
+
+        private void UnderlinedBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+            {
+                txtbox.TextDecorations = null;
+            }
+        }
+
+        private void WrapTextBox_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+            {
+                txtbox.TextWrapping = TextWrapping.Wrap;
+            }
+        }
+
+        private void WrapTextBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+            {
+                txtbox.TextWrapping = TextWrapping.NoWrap;
+            }
+        }
     }
 }

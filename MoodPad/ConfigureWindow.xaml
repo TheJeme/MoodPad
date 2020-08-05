@@ -6,13 +6,19 @@
         xmlns:local="clr-namespace:MoodPad"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="Moodpad Properties"
+        Title="Moodpad Configure"
         Height="320" Width="550">
     <Grid>
         <StackPanel Margin="0,20" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Label Content="Theme:" FontSize="16"/>
-            <ComboBox Width="100" Height="25">
-                
+            <ComboBox Width="100" Height="25" SelectedIndex="0" SelectionChanged="Theme_SelectionChanged">
+                <ComboBoxItem Content="Default"/>
+                <ComboBoxItem Content="Light"/>
+                <ComboBoxItem Content="Dark"/>
+                <ComboBoxItem Content="Sini"/>
+                <ComboBoxItem Content="Choco"/>
+                <ComboBoxItem Content="Dark Red"/>
+                <ComboBoxItem Content="Custom"/>
             </ComboBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,50">
@@ -20,15 +26,15 @@
                 <StackPanel Margin="10" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" Margin="7" HorizontalAlignment="Right">
                         <Label Content="Font"/>
-                        <Border Width="30" Height="30" BorderThickness="1" BorderBrush="Black" Background="Yellow"/>
+                        <Button x:Name="fontColorButton" Width="30" Height="30" BorderThickness="1" BorderBrush="Black" Background="Yellow" Click="FontColor_Click"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="7" HorizontalAlignment="Right">
                         <Label Content="Background"/>
-                        <Border Width="30" Height="30" BorderThickness="1" BorderBrush="Black" Background="Yellow"/>
+                        <Button x:Name="backgroundColorButton" Width="30" Height="30" BorderThickness="1" BorderBrush="Black" Background="Yellow" Click="BackgroundColor_Click"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="7" HorizontalAlignment="Right">
                         <Label Content="Background 2"/>
-                        <Border Width="30" Height="30" BorderThickness="1" BorderBrush="Black" Background="Yellow"/>
+                        <Button x:Name="backgroundColorButton2" Width="30" Height="30" BorderThickness="1" BorderBrush="Black" Background="Yellow" Click="BackgroundColor2_Click"/>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
@@ -37,20 +43,17 @@
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <Label Content="Font:" Width="60"/>
-                        <ComboBox x:Name="FontSizeBox" Width="100" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}">
+                        <ComboBox x:Name="fontFamilyBox" Width="100" SelectedIndex="0" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" SelectionChanged="Font_SelectionChanged">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock FontFamily="{Binding .}" Text="{Binding Source}" ToolTip="{Binding Source}" />
+                                    <TextBlock FontFamily="{Binding .}" Text="{Binding Source}" ToolTip="{Binding Source}"/>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <Label Content="Size:" Width="60"/>
-                        <ComboBox x:Name="FontFamilyBox" Width="100" MaxDropDownHeight="105">
-                            <ComboBoxItem Content="6"/>
-                            <ComboBoxItem Content="7"/>
-                            <ComboBoxItem Content="8"/>
+                        <ComboBox x:Name="fontSizeBox" Width="100" MaxDropDownHeight="105" SelectedIndex="0" SelectionChanged="Size_SelectionChanged">
                             <ComboBoxItem Content="9"/>
                             <ComboBoxItem Content="10"/>
                             <ComboBoxItem Content="11"/>
@@ -59,9 +62,10 @@
                             <ComboBoxItem Content="17"/>
                             <ComboBoxItem Content="19"/>
                             <ComboBoxItem Content="21"/>
-                            <ComboBoxItem Content="24"/>
-                            <ComboBoxItem Content="26"/>
-                            <ComboBoxItem Content="28"/>
+                            <ComboBoxItem Content="23"/>
+                            <ComboBoxItem Content="25"/>
+                            <ComboBoxItem Content="27"/>
+                            <ComboBoxItem Content="29"/>
                             <ComboBoxItem Content="32"/>
                             <ComboBoxItem Content="36"/>
                             <ComboBoxItem Content="48"/>
@@ -70,13 +74,15 @@
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Margin="7">
-                        <CheckBox x:Name="BoldBox" Content="Bold" Margin="3"/>
-                        <CheckBox x:Name="ItalicBox" Content="Italic" Margin="3"/>
-                        <CheckBox x:Name="UnderlinedBox" Content="Underlined" Margin="3"/>
+                        <CheckBox x:Name="boldBox" Content="Bold" Margin="3" Checked="BoldBox_Checked" Unchecked="BoldBox_Unchecked"/>
+                        <CheckBox x:Name="italicBox" Content="Italic" Margin="3" Checked="ItalicBox_Checked" Unchecked="ItalicBox_Unchecked"/>
+                        <CheckBox x:Name="underlinedBox" Content="Underlined" Margin="3" Checked="UnderlinedBox_Checked" Unchecked="UnderlinedBox_Unchecked"/>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
         </StackPanel>
-        <Button Content="Close" Width="90" Height="30" Margin="50,10" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+
+        <CheckBox x:Name="wrapTextBox" Content="Wrap Text" Margin="50,20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Checked="WrapTextBox_Checked" Unchecked="WrapTextBox_Unchecked"/>
+        <Button Content="Close" Width="90" Height="30" Margin="50,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Click"/>
     </Grid>
 </Window>

@@ -14,9 +14,13 @@ namespace MoodPad
     /// </summary>
     public partial class MainWindow : Window
     {
+        public List<TextBox> listOfTextBoxes;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            listOfTextBoxes = new List<TextBox>();
             MakeNewTab();
         }
 
@@ -47,6 +51,7 @@ namespace MoodPad
             tbox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             tbox.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
             tbox.TextChanged += new TextChangedEventHandler(TextChanged_Event);
+            listOfTextBoxes.Add(tbox);
             ti.Content = tbox;
             tabControl.Items.Add(ti);
         }
