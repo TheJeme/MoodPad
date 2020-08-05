@@ -17,9 +17,9 @@ namespace MoodPad
         public MainWindow()
         {
             InitializeComponent();
+            MakeNewTab();
         }
 
-        
         private void MakeNewTab()
         {
             TabItem ti = new TabItem();
@@ -46,6 +46,7 @@ namespace MoodPad
             tbox.Padding = new Thickness(2);
             tbox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             tbox.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+            tbox.TextChanged += new TextChangedEventHandler(TextChanged_Event);
             ti.Content = tbox;
             tabControl.Items.Add(ti);
         }
@@ -74,6 +75,18 @@ namespace MoodPad
 
         private void ExitItem_Click(object sender, RoutedEventArgs e)
         {
+            if (1 == 1)
+            {
+                string msg = "You have not saved. Do you want to exit?";
+                MessageBoxResult result =
+                  MessageBox.Show(
+                    msg,
+                    "MoodPad",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.No) return;
+            }
             Application.Current.Shutdown();
         }
 
@@ -100,7 +113,79 @@ namespace MoodPad
 
         private void DateTimeItem_Click(object sender, RoutedEventArgs e)
         {
+            DateTime datenow = DateTime.Now;
+            var txtBox = tabControl.SelectedContent as TextBox;
+            txtBox.Text += datenow;
 
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (1 == 1)
+            {
+                string msg = "You have not saved. Do you want to exit?";
+                MessageBoxResult result =
+                  MessageBox.Show(
+                    msg,
+                    "MoodPad",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.No) e.Cancel = true;
+            }
+        }
+
+        private void NewCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void FindCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void FindCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            if (FindPanel.Visibility == Visibility.Visible)
+            {
+                FindPanel.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                FindPanel.Visibility = Visibility.Visible;
+                startIndex = 0;
+            }
+        }
+        int startIndex;
+        private void FindButton_Click(object sender, RoutedEventArgs e)
+        {
+            var txtBox = tabControl.SelectedContent as TextBox;
+
+            if (txtBox.Text.Contains(FindTextLabel.Text))
+            {
+                txtBox.Focus();
+                string searchString = FindTextLabel.Text;
+                startIndex = txtBox.Text.IndexOf(searchString, startIndex);
+                try
+                {
+                    txtBox.Select(startIndex, searchString.Length);
+                }
+                catch
+                {
+                    startIndex = 0;
+                    if (txtBox.Text.IndexOf(searchString, startIndex) == txtBox.Text.LastIndexOf(searchString, startIndex))
+                    {
+                        txtBox.Select(startIndex, searchString.Length);
+                    }
+                }
+                startIndex += searchString.Length;
+            }
+        }
+
+        private void TextChanged_Event(object sender, TextChangedEventArgs e)
+        {
+            startIndex = 0;
         }
     }
 }

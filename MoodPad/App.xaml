@@ -31,7 +31,7 @@
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
                                 ContentSource="Header"
-                                Margin="12,2,12,2"
+                                Margin="12,6"
                                 RecognizesAccessKey="True"/>
                             </Border>
                         </Grid>

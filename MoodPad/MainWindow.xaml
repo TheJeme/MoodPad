@@ -9,9 +9,14 @@
         Title="MoodPad"
         MinHeight="350" MinWidth="350"
         Height="450" Width="600"
-        >
+        Closing="Window_Closing">
+
+    <Window.CommandBindings>
+        <CommandBinding Command="New" CanExecute="NewCommand_CanExecute"/>
+        <CommandBinding Command="Find" CanExecute="FindCommand_CanExecute" Executed="FindCommand_Executed"/>
+    </Window.CommandBindings>
+
     <Grid>
-        
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
@@ -23,15 +28,15 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="0" Grid.Column="1">
             <Menu Background="#404d59">
-                <MenuItem Header="_File">
-                    <MenuItem Header="New" Command="New"/>
+                <MenuItem Header="File">
+                    <MenuItem Header="New" Command="New" Click="NewItem_Click"/>
                     <MenuItem Header="Open" Command="Open"/>
                     <MenuItem Header="Save" Command="Save"/>
-                    <MenuItem Header="Save as" Command="SaveAs"/>
+                    <MenuItem Header="Save As..." Command="SaveAs"/>
                     <Separator />
-                    <MenuItem Header="_Exit" Click="ExitItem_Click"/>
+                    <MenuItem Header="Exit" Click="ExitItem_Click"/>
                 </MenuItem>
-                <MenuItem Header="_Edit">
+                <MenuItem Header="Edit">
                     <MenuItem Header="Undo" Command="Undo"/>
                     <MenuItem Header="Redo" Command="Redo"/>
                     <Separator />
@@ -43,30 +48,41 @@
                     <MenuItem Header="Select All" Command="SelectAll"/>
                     <MenuItem Header="Find" Command="Find"/>
                 </MenuItem>
-                <MenuItem Header="_Format">
-                    <MenuItem Header="_Properties..."/>
+                <MenuItem Header="Format">
+                    <MenuItem Header="Properties..."/>
                 </MenuItem>
-                <MenuItem Header="_Insert">
-                    <MenuItem Header="Datetime"/>
+                <MenuItem Header="Insert">
+                    <MenuItem Header="Datetime" Click="DateTimeItem_Click"/>
                 </MenuItem>
             </Menu>
         </Grid>
 
-        <TabControl x:Name="tabControl" Grid.Row="1" Grid.Column="1" Background="#253135" BorderThickness="0" Grid.RowSpan="2">
-
-            <TabItem Foreground="White">
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="New page 1" />
-                        <Button Content=" X "/>
-                    </StackPanel>
-                </TabItem.Header>
-                <TextBox Background="#253135" BorderThickness="0" AcceptsReturn="True" AcceptsTab="True" Foreground="White" FontSize="15" Padding="2" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"/>
-            </TabItem>
-
+        <TabControl x:Name="tabControl" Grid.Row="1" Grid.Column="1" Background="#253135" BorderThickness="0">
+            <TabControl.Template>
+                <ControlTemplate TargetType="TabControl">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" >
+                            <TabPanel x:Name="HeaderPanel"
+                          Panel.ZIndex ="1" 
+                          KeyboardNavigation.TabIndex="1"
+                          Grid.Column="0"
+                          Grid.Row="0"
+                          IsItemsHost="true"/>
+                        </ScrollViewer>
+                        <ContentPresenter x:Name="PART_SelectedContentHost"
+                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                      Margin="{TemplateBinding Padding}"
+                                      ContentSource="SelectedContent" Grid.Row="1"/>
+                    </Grid>
+                </ControlTemplate>
+            </TabControl.Template>
         </TabControl>
-        <Border Grid.Row="1" Grid.Column="1" Background="#253135" Height="19" Width="19" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-        <Border x:Name="FindPanel" Visibility="Collapsed" Background="#404d59" Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="1" Height="70" VerticalAlignment="Bottom">
+        <Border Grid.Row="1" Grid.Column="1" Background="#253135" Height="17" Width="17" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+        <Border x:Name="FindPanel" Visibility="Collapsed" Background="#2D373F" Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="1" Height="70" VerticalAlignment="Bottom">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -78,8 +94,8 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Content="Find in current file" FontSize="16" Foreground="White" HorizontalAlignment="Center"/>
-                <TextBox x:Name="FindText" Grid.Row="1" Grid.Column="0" FontSize="15" Height="25" Margin="7"/>
-                <Button x:Name="FindButton" Grid.Row="1" Grid.Column="1" Content="Find" Height="25" Width="65"/>
+                <TextBox x:Name="FindTextLabel" Grid.Row="1" Grid.Column="0" FontSize="15" Height="25" Margin="7"/>
+                <Button x:Name="FindButton" Grid.Row="1" Grid.Column="1" Content="Find" Height="25" Width="65" Click="FindButton_Click"/>
             </Grid>
         </Border>
     </Grid>
