@@ -119,7 +119,7 @@ namespace MoodPad
             {
                 foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
                 {
-                    txtbox.FontFamily = new FontFamily(fontFamilyBox.SelectedValue.ToString());
+                    txtbox.TextBox.FontFamily = new FontFamily(fontFamilyBox.SelectedValue.ToString());
                 }
             }
             catch
@@ -136,7 +136,7 @@ namespace MoodPad
             {
                 foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
                 {
-                    txtbox.FontSize = Convert.ToDouble(fontSizeBox.SelectedValue.ToString());
+                    txtbox.TextBox.FontSize = Convert.ToDouble(fontSizeBox.SelectedValue.ToString());
                 }
             }
             catch
@@ -172,7 +172,7 @@ namespace MoodPad
         {
             foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
             {
-                txtbox.FontWeight = FontWeights.Bold;
+                txtbox.TextBox.FontWeight = FontWeights.Bold;
             }
             Settings.Default["IsBold"] = true;
             Settings.Default.Save();
@@ -182,7 +182,7 @@ namespace MoodPad
         {
             foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
             {
-                txtbox.FontWeight = FontWeights.Normal;
+                txtbox.TextBox.FontWeight = FontWeights.Normal;
             }
             Settings.Default["IsBold"] = false;
             Settings.Default.Save();
@@ -192,7 +192,7 @@ namespace MoodPad
         {
             foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
             {
-                txtbox.FontStyle = FontStyles.Italic;
+                txtbox.TextBox.FontStyle = FontStyles.Italic;
             }
             Settings.Default["IsItalic"] = true;
             Settings.Default.Save();
@@ -202,7 +202,7 @@ namespace MoodPad
         {
             foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
             {
-                txtbox.FontStyle = FontStyles.Normal;
+                txtbox.TextBox.FontStyle = FontStyles.Normal;
             }
             Settings.Default["IsItalic"] = false;
             Settings.Default.Save();
@@ -212,7 +212,7 @@ namespace MoodPad
         {
             foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
             {
-                txtbox.TextDecorations = TextDecorations.Underline;
+                txtbox.TextBox.TextDecorations = TextDecorations.Underline;
             }
             Settings.Default["IsUnderline"] = true;
             Settings.Default.Save();
@@ -222,7 +222,7 @@ namespace MoodPad
         {
             foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
             {
-                txtbox.TextDecorations = null;
+                txtbox.TextBox.TextDecorations = null;
             }
             Settings.Default["IsUnderline"] = false;
             Settings.Default.Save();
@@ -232,7 +232,7 @@ namespace MoodPad
         {
             foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
             {
-                txtbox.TextWrapping = TextWrapping.Wrap;
+                txtbox.TextBox.TextWrapping = TextWrapping.Wrap;
             }
             Settings.Default["IsWrapText"] = true;
             Settings.Default.Save();
@@ -242,7 +242,7 @@ namespace MoodPad
         {
             foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
             {
-                txtbox.TextWrapping = TextWrapping.NoWrap;
+                txtbox.TextBox.TextWrapping = TextWrapping.NoWrap;
             }
             Settings.Default["IsWrapText"] = false;
             Settings.Default.Save();

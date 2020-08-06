@@ -13,6 +13,9 @@
 
     <Window.CommandBindings>
         <CommandBinding Command="New" CanExecute="NewCommand_CanExecute"/>
+        <CommandBinding Command="Open" CanExecute="OpenCommand_CanExecute"/>
+        <CommandBinding Command="Save" CanExecute="SaveCommand_CanExecute"/>
+        <CommandBinding Command="SaveAs" CanExecute="SaveAsCommand_CanExecute"/>
         <CommandBinding Command="Find" CanExecute="FindCommand_CanExecute" Executed="FindCommand_Executed"/>
     </Window.CommandBindings>
 
@@ -30,9 +33,9 @@
             <Menu Background="#404d59">
                 <MenuItem Header="File">
                     <MenuItem Header="New" Command="New" Click="NewItem_Click"/>
-                    <MenuItem Header="Open" Command="Open"/>
-                    <MenuItem Header="Save" Command="Save"/>
-                    <MenuItem Header="Save As..." Command="SaveAs"/>
+                    <MenuItem Header="Open" Command="Open" Click="OpenItem_Click"/>
+                    <MenuItem Header="Save" Command="Save" Click="SaveItem_Click"/>
+                    <MenuItem Header="Save As..." Command="SaveAs" Click="SaveAsItem_Click"/>
                 </MenuItem>
                 <MenuItem Header="Edit">
                     <MenuItem Header="Undo" Command="Undo"/>

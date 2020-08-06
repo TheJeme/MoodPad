@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-
+using Microsoft.Win32;
 using MoodPad.Properties;
 
 namespace MoodPad
@@ -18,15 +19,15 @@ namespace MoodPad
     {
         private int startIndex;
 
-        public List<TextBox> listOfTextBoxes;
+        public List<TextFile> listOfTextBoxes;
 
-        public static Color fontColor, backgroundColor, backgroundColor2;
+        public static Color fontColor, backgroundColor;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            listOfTextBoxes = new List<TextBox>();
+            listOfTextBoxes = new List<TextFile>();
             MakeNewTab();
 
             ConfigureStyle();
@@ -36,32 +37,31 @@ namespace MoodPad
         {
             fontColor = (Color)ColorConverter.ConvertFromString(Settings.Default["FontColor"].ToString());
             backgroundColor = (Color)ColorConverter.ConvertFromString(Settings.Default["BackgroundColor"].ToString());
-            backgroundColor2 = (Color)ColorConverter.ConvertFromString(Settings.Default["BackgroundColor2"].ToString());
 
             bugBox.Background = new SolidColorBrush(backgroundColor);
 
             foreach (var txtbox in listOfTextBoxes)
             {
-                txtbox.Background = new SolidColorBrush(backgroundColor);
-                txtbox.Foreground = new SolidColorBrush(fontColor);
-                txtbox.FontFamily = new FontFamily(Settings.Default["FontFamily"].ToString());
-                txtbox.FontSize = Convert.ToDouble(Settings.Default["FontSize"].ToString());
+                txtbox.TextBox.Background = new SolidColorBrush(backgroundColor);
+                txtbox.TextBox.Foreground = new SolidColorBrush(fontColor);
+                txtbox.TextBox.FontFamily = new FontFamily(Settings.Default["FontFamily"].ToString());
+                txtbox.TextBox.FontSize = Convert.ToDouble(Settings.Default["FontSize"].ToString());
 
                 if (Convert.ToBoolean(Settings.Default["IsBold"]))
                 {
-                    txtbox.FontWeight = FontWeights.Bold;
+                    txtbox.TextBox.FontWeight = FontWeights.Bold;
                 }
                 if (Convert.ToBoolean(Settings.Default["IsItalic"]))
                 {
-                    txtbox.FontStyle = FontStyles.Italic;
+                    txtbox.TextBox.FontStyle = FontStyles.Italic;
                 }
                 if (Convert.ToBoolean(Settings.Default["IsUnderline"]))
                 {
-                    txtbox.TextDecorations = TextDecorations.Underline;
+                    txtbox.TextBox.TextDecorations = TextDecorations.Underline;
                 }
                 if (Convert.ToBoolean(Settings.Default["IsWrapText"]))
                 {
-                    txtbox.TextWrapping = TextWrapping.Wrap;
+                    txtbox.TextBox.TextWrapping = TextWrapping.Wrap;
                 }
             }
         }
@@ -100,7 +100,7 @@ namespace MoodPad
             tbox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             tbox.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
             tbox.TextChanged += new TextChangedEventHandler(TextChanged_Event);
-            listOfTextBoxes.Add(tbox);
+            listOfTextBoxes.Add(new TextFile { TextBox = tbox, FilePath = "" });
             ti.Content = tbox;
             tabControl.Items.Add(ti);
         }
@@ -116,6 +116,17 @@ namespace MoodPad
         private void OpenItem_Click(object sender, RoutedEventArgs e)
         {
 
+            OpenFileDialog dlg = new OpenFileDialog();
+
+            dlg.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result.HasValue && result.Value)
+            {
+                var txtBox = tabControl.SelectedContent as TextBox;
+                txtBox.Text = File.ReadAllText(dlg.FileName);
+            }
         }
 
         private void SaveItem_Click(object sender, RoutedEventArgs e)
@@ -171,6 +182,21 @@ namespace MoodPad
         }
 
         private void NewCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void OpenCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void SaveCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void SaveAsCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }
