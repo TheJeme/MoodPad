@@ -66,14 +66,14 @@ namespace MoodPad
             }
         }
 
-        private void MakeNewTab()
+        private void MakeNewTab(string tabName = "New Page", string textContent = "", string filePath = "")
         {
             TabItem ti = new TabItem();
             ti.Foreground = new SolidColorBrush(Colors.White);
 
             StackPanel sp = new StackPanel();
-            TextBlock tb = new TextBlock();
-            tb.Text = "New Page";
+            TextBlock headerTextBlock = new TextBlock();
+            headerTextBlock.Text = tabName;
             Button b = new Button();
             b.Content = "X";
             b.Click += deleteTabButton_Click;
@@ -86,11 +86,12 @@ namespace MoodPad
             b.Margin = new Thickness(10,0,0,0);
 
             sp.Orientation = Orientation.Horizontal;
-            sp.Children.Add(tb);
+            sp.Children.Add(headerTextBlock);
             sp.Children.Add(b);
             ti.Header = sp;
 
             TextBox tbox = new TextBox();
+            tbox.Text = textContent;
             tbox.Background = new SolidColorBrush(Color.FromRgb(37, 49, 53));
             tbox.BorderThickness = new Thickness(0);
             tbox.AcceptsReturn = true;
@@ -100,43 +101,45 @@ namespace MoodPad
             tbox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             tbox.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
             tbox.TextChanged += new TextChangedEventHandler(TextChanged_Event);
-            listOfTextBoxes.Add(new TextFile { TextBox = tbox, FilePath = "" });
             ti.Content = tbox;
+            listOfTextBoxes.Add(new TextFile { TextBox = tbox, Header = headerTextBlock, FilePath = filePath });
             tabControl.Items.Add(ti);
         }
 
-        /** Menu File Events **/
-
-        private void NewItem_Click(object sender, RoutedEventArgs e)
+        private void OpenFile()
         {
-            MakeNewTab();
-            ConfigureStyle();
-        }
-
-        private void OpenItem_Click(object sender, RoutedEventArgs e)
-        {
-
             OpenFileDialog dlg = new OpenFileDialog();
-
-            dlg.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            dlg.Filter = "Text Files (*.txt)|*.txt|All files (*.*)|*.*";
 
             Nullable<bool> result = dlg.ShowDialog();
 
             if (result.HasValue && result.Value)
             {
-                var txtBox = tabControl.SelectedContent as TextBox;
-                txtBox.Text = File.ReadAllText(dlg.FileName);
+                MakeNewTab(Path.GetFileName(dlg.FileName), File.ReadAllText(dlg.FileName), dlg.FileName);
+                ConfigureStyle();
+                //var txtBox = tabControl.SelectedContent as TextBox;
+                //txtBox.Text = File.ReadAllText(dlg.FileName);
             }
         }
 
-        private void SaveItem_Click(object sender, RoutedEventArgs e)
+        private void SaveFile()
         {
+            if (listOfTextBoxes[tabControl.SelectedIndex].FilePath == "")
+            {
+                SaveFileDialog dlg = new SaveFileDialog();
+                dlg.Filter = "Text Files (*.txt)|*.txt|All files (*.*)|*.*";
 
-        }
-
-        private void SaveAsItem_Click(object sender, RoutedEventArgs e)
-        {
-
+                if (dlg.ShowDialog() == true)
+                {
+                    listOfTextBoxes[tabControl.SelectedIndex].FilePath = dlg.FileName;
+                    listOfTextBoxes[tabControl.SelectedIndex].Header.Text = Path.GetFileName(dlg.FileName);
+                    File.WriteAllText(listOfTextBoxes[tabControl.SelectedIndex].FilePath, listOfTextBoxes[tabControl.SelectedIndex].TextBox.Text);
+                }
+            }
+            else
+            {
+                File.WriteAllText(listOfTextBoxes[tabControl.SelectedIndex].FilePath, listOfTextBoxes[tabControl.SelectedIndex].TextBox.Text);
+            }
         }
 
         /** Menu Edit Events **/
@@ -181,24 +184,45 @@ namespace MoodPad
             }
         }
 
-        private void NewCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+        private void NewFileCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }
 
-        private void OpenCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+        private void NewFileCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            MakeNewTab();
+            ConfigureStyle();
+        }
+
+        private void OpenFileCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }
 
-        private void SaveCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+        private void OpenFileCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            OpenFile();
+        }
+
+        private void SaveFileCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }
 
-        private void SaveAsCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+        private void SaveFileCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            SaveFile();
+        }
+
+        private void SaveAsFileCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
+        }
+
+        private void SaveAsFileCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+
         }
 
         private void FindCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)

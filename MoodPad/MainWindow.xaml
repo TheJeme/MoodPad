@@ -12,10 +12,10 @@
         Closing="Window_Closing">
 
     <Window.CommandBindings>
-        <CommandBinding Command="New" CanExecute="NewCommand_CanExecute"/>
-        <CommandBinding Command="Open" CanExecute="OpenCommand_CanExecute"/>
-        <CommandBinding Command="Save" CanExecute="SaveCommand_CanExecute"/>
-        <CommandBinding Command="SaveAs" CanExecute="SaveAsCommand_CanExecute"/>
+        <CommandBinding Command="New" CanExecute="NewFileCommand_CanExecute" Executed="NewFileCommand_Executed"/>
+        <CommandBinding Command="Open" CanExecute="OpenFileCommand_CanExecute" Executed="OpenFileCommand_Executed"/>
+        <CommandBinding Command="Save" CanExecute="SaveFileCommand_CanExecute" Executed="SaveFileCommand_Executed"/>
+        <CommandBinding Command="SaveAs" CanExecute="SaveAsFileCommand_CanExecute" Executed="SaveAsFileCommand_Executed"/>
         <CommandBinding Command="Find" CanExecute="FindCommand_CanExecute" Executed="FindCommand_Executed"/>
     </Window.CommandBindings>
 
@@ -32,10 +32,10 @@
         <Grid Grid.Row="0" Grid.Column="1">
             <Menu Background="#404d59">
                 <MenuItem Header="File">
-                    <MenuItem Header="New" Command="New" Click="NewItem_Click"/>
-                    <MenuItem Header="Open" Command="Open" Click="OpenItem_Click"/>
-                    <MenuItem Header="Save" Command="Save" Click="SaveItem_Click"/>
-                    <MenuItem Header="Save As..." Command="SaveAs" Click="SaveAsItem_Click"/>
+                    <MenuItem Header="New" Command="New"/>
+                    <MenuItem Header="Open" Command="Open"/>
+                    <MenuItem Header="Save" Command="Save"/>
+                    <MenuItem Header="Save As..." Command="SaveAs"/>
                 </MenuItem>
                 <MenuItem Header="Edit">
                     <MenuItem Header="Undo" Command="Undo"/>
