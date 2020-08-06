@@ -33,8 +33,6 @@
                     <MenuItem Header="Open" Command="Open"/>
                     <MenuItem Header="Save" Command="Save"/>
                     <MenuItem Header="Save As..." Command="SaveAs"/>
-                    <Separator />
-                    <MenuItem Header="Exit" Click="ExitItem_Click"/>
                 </MenuItem>
                 <MenuItem Header="Edit">
                     <MenuItem Header="Undo" Command="Undo"/>
@@ -44,7 +42,6 @@
                     <MenuItem Header="Copy" Command="Copy"/>
                     <MenuItem Header="Paste" Command="Paste"/>
                     <Separator />
-                    <MenuItem Header="Delete" Command="Delete"/>
                     <MenuItem Header="Select All" Command="SelectAll"/>
                     <MenuItem Header="Find" Command="Find"/>
                 </MenuItem>
@@ -81,8 +78,8 @@
                 </ControlTemplate>
             </TabControl.Template>
         </TabControl>
-        <Border Grid.Row="1" Grid.Column="1" Background="#253135" Height="17" Width="17" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-        <Border x:Name="FindPanel" Visibility="Collapsed" Background="#2D373F" Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="1" Height="70" VerticalAlignment="Bottom">
+        <Border x:Name="bugBox" Grid.Row="1" Grid.Column="1" Background="#253135" Height="17" Width="17" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+        <Border x:Name="findPanel" Visibility="Collapsed" Background="#2D373F" Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="1" Height="70" VerticalAlignment="Bottom">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

@@ -25,9 +25,10 @@ namespace MoodPad.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Drawing.Font FontFamily {
+        [global::System.Configuration.DefaultSettingValueAttribute("Segoe UI")]
+        public string FontFamily {
             get {
-                return ((global::System.Drawing.Font)(this["FontFamily"]));
+                return ((string)(this["FontFamily"]));
             }
             set {
                 this["FontFamily"] = value;
@@ -132,13 +133,37 @@ namespace MoodPad.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Theme {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ThemeIndex {
             get {
-                return ((string)(this["Theme"]));
+                return ((int)(this["ThemeIndex"]));
             }
             set {
-                this["Theme"] = value;
+                this["ThemeIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string CustomFontColor {
+            get {
+                return ((string)(this["CustomFontColor"]));
+            }
+            set {
+                this["CustomFontColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#253135")]
+        public string CustomBackgroundColor {
+            get {
+                return ((string)(this["CustomBackgroundColor"]));
+            }
+            set {
+                this["CustomBackgroundColor"] = value;
             }
         }
     }

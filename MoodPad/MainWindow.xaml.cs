@@ -16,9 +16,11 @@ namespace MoodPad
     /// </summary>
     public partial class MainWindow : Window
     {
+        private int startIndex;
+
         public List<TextBox> listOfTextBoxes;
 
-        public Color fontColor, backgroundColor, backgroundColor2;
+        public static Color fontColor, backgroundColor, backgroundColor2;
 
         public MainWindow()
         {
@@ -30,19 +32,20 @@ namespace MoodPad
             ConfigureStyle();
         }
 
-        private void ConfigureStyle()
+        public void ConfigureStyle()
         {
             fontColor = (Color)ColorConverter.ConvertFromString(Settings.Default["FontColor"].ToString());
             backgroundColor = (Color)ColorConverter.ConvertFromString(Settings.Default["BackgroundColor"].ToString());
             backgroundColor2 = (Color)ColorConverter.ConvertFromString(Settings.Default["BackgroundColor2"].ToString());
 
-            FindPanel.Background = new SolidColorBrush(backgroundColor2);
+            bugBox.Background = new SolidColorBrush(backgroundColor);
 
             foreach (var txtbox in listOfTextBoxes)
             {
                 txtbox.Background = new SolidColorBrush(backgroundColor);
                 txtbox.Foreground = new SolidColorBrush(fontColor);
-                txtbox.FontSize = Convert.ToDouble(Settings.Default["FontSize"]);
+                txtbox.FontFamily = new FontFamily(Settings.Default["FontFamily"].ToString());
+                txtbox.FontSize = Convert.ToDouble(Settings.Default["FontSize"].ToString());
 
                 if (Convert.ToBoolean(Settings.Default["IsBold"]))
                 {
@@ -73,6 +76,7 @@ namespace MoodPad
             tb.Text = "New Page";
             Button b = new Button();
             b.Content = "X";
+            b.Click += deleteTabButton_Click;
             b.FontWeight = FontWeights.Bold;
             b.Width = 20;
             b.Height = 20;
@@ -106,6 +110,7 @@ namespace MoodPad
         private void NewItem_Click(object sender, RoutedEventArgs e)
         {
             MakeNewTab();
+            ConfigureStyle();
         }
 
         private void OpenItem_Click(object sender, RoutedEventArgs e)
@@ -121,11 +126,6 @@ namespace MoodPad
         private void SaveAsItem_Click(object sender, RoutedEventArgs e)
         {
 
-        }
-
-        private void ExitItem_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
         }
 
         /** Menu Edit Events **/
@@ -182,17 +182,17 @@ namespace MoodPad
 
         private void FindCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
-            if (FindPanel.Visibility == Visibility.Visible)
+            if (findPanel.Visibility == Visibility.Visible)
             {
-                FindPanel.Visibility = Visibility.Collapsed;
+                findPanel.Visibility = Visibility.Collapsed;
             }
             else
             {
-                FindPanel.Visibility = Visibility.Visible;
+                findPanel.Visibility = Visibility.Visible;
                 startIndex = 0;
             }
         }
-        int startIndex;
+
         private void FindButton_Click(object sender, RoutedEventArgs e)
         {
             var txtBox = tabControl.SelectedContent as TextBox;
@@ -221,6 +221,13 @@ namespace MoodPad
         private void TextChanged_Event(object sender, TextChangedEventArgs e)
         {
             startIndex = 0;
+        }
+
+        private void deleteTabButton_Click(object sender, RoutedEventArgs e)
+        {
+            listOfTextBoxes.RemoveAt(tabControl.SelectedIndex);
+            tabControl.Items.Remove(tabControl.SelectedItem);
+            tabControl.Items.Refresh();
         }
     }
 }
