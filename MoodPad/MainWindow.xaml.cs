@@ -32,6 +32,7 @@ namespace MoodPad
             if (File.Exists(filePath))
             {
                 MakeNewTab(Path.GetFileName(filePath), File.ReadAllText(filePath, Encoding.UTF8), filePath);
+                bugBox.Visibility = Visibility.Visible;
                 ConfigureStyle();
             }
         }
@@ -306,10 +307,12 @@ namespace MoodPad
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             startIndex = 0;
+            bugBox.Visibility = Visibility.Visible;
 
-            if (tabControl.SelectedItem == null && findPanel.Visibility == Visibility.Visible)
+            if (tabControl.SelectedItem == null)
             {
                 findPanel.Visibility = Visibility.Collapsed;
+                bugBox.Visibility = Visibility.Collapsed;
             }
         }
 
