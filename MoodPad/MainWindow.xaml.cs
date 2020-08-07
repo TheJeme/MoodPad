@@ -106,6 +106,13 @@ namespace MoodPad
             tabControl.Items.Add(ti);
         }
 
+        private void NewFile()
+        {
+            MakeNewTab();
+            ConfigureStyle();
+            tabControl.SelectedIndex = listOfTextFiles.Count - 1;
+        }
+
         private void OpenFile()
         {
             OpenFileDialog dlg = new OpenFileDialog();
@@ -166,13 +173,6 @@ namespace MoodPad
             }
         }
 
-        /** Menu Edit Events **/
-
-        private void DeleteItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         /** Menu Format Events **/
 
         private void ConfigureItem_Click(object sender, RoutedEventArgs e)
@@ -215,8 +215,7 @@ namespace MoodPad
 
         private void NewFileCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
-            MakeNewTab();
-            ConfigureStyle();
+            NewFile();
         }
 
         private void OpenFileCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
@@ -231,7 +230,7 @@ namespace MoodPad
 
         private void SaveFileCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;
+            e.CanExecute = tabControl.SelectedItem != null; ;
         }
 
         private void SaveFileCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
@@ -241,7 +240,7 @@ namespace MoodPad
 
         private void SaveAsFileCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;
+            e.CanExecute = tabControl.SelectedItem != null;
         }
 
         private void SaveAsFileCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
@@ -251,7 +250,7 @@ namespace MoodPad
 
         private void FindCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;
+            e.CanExecute = tabControl.SelectedItem != null;
         }
 
         private void FindCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
@@ -297,6 +296,16 @@ namespace MoodPad
             startIndex = 0;
 
             listOfTextFiles[tabControl.SelectedIndex].IsSaved = false;
+        }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            startIndex = 0;
+
+            if (tabControl.SelectedItem == null && findPanel.Visibility == Visibility.Visible)
+            {
+                findPanel.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void deleteTabButton_Click(object sender, RoutedEventArgs e)

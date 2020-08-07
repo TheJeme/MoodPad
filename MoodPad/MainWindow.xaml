@@ -57,7 +57,7 @@
             </Menu>
         </Grid>
 
-        <TabControl x:Name="tabControl" Grid.Row="1" Grid.Column="1" Background="#253135" BorderThickness="0">
+        <TabControl x:Name="tabControl" Grid.Row="1" Grid.Column="1" Background="#253135" BorderThickness="0" SelectionChanged="TabControl_SelectionChanged">
             <TabControl.Template>
                 <ControlTemplate TargetType="TabControl">
                     <Grid>
