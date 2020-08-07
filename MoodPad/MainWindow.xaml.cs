@@ -23,14 +23,17 @@ namespace MoodPad
 
         public static Color fontColor, backgroundColor;
 
-        public MainWindow()
+        public MainWindow(string filePath)
         {
             InitializeComponent();
 
             listOfTextFiles = new List<TextFile>();
-            MakeNewTab();
 
-            ConfigureStyle();
+            if (File.Exists(filePath))
+            {
+                MakeNewTab(Path.GetFileName(filePath), File.ReadAllText(filePath, Encoding.UTF8), filePath);
+                ConfigureStyle();
+            }
         }
 
         public void ConfigureStyle()
@@ -186,6 +189,8 @@ namespace MoodPad
 
         private void DateTimeItem_Click(object sender, RoutedEventArgs e)
         {
+            if (tabControl.SelectedItem == null) return;
+
             DateTime datenow = DateTime.Now;
             var txtBox = tabControl.SelectedContent as TextBox;
             txtBox.Text += datenow;
