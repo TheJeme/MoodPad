@@ -44,7 +44,7 @@ namespace MoodPad
                     }
                     break;
             }
-
+            (this.Owner as ConfigureWindow).ConfigureStyle();
             Settings.Default.Save();
             this.Close();
         }

@@ -200,17 +200,39 @@ namespace MoodPad
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (1 == 1)
+            for (int i = 0; i < listOfTextFiles.Count; i++)
             {
-                string msg = "You have not saved. Do you want to exit?";
-                MessageBoxResult result =
-                  MessageBox.Show(
-                    msg,
-                    "MoodPad",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Warning);
+                if (listOfTextFiles[i].IsSaved)
+                {
+                    listOfTextFiles.RemoveAt(i);
+                    tabControl.Items.RemoveAt(i);
+                    tabControl.Items.Refresh();
+                    i--;
+                }
+                else
+                {
+                    tabControl.SelectedIndex = i;
 
-                if (result == MessageBoxResult.No) e.Cancel = true;
+                    string msg = "You have not saved this file. Do you want to exit?";
+                    MessageBoxResult result =
+                      MessageBox.Show(
+                        msg,
+                        "MoodPad",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Warning);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        listOfTextFiles.RemoveAt(i);
+                        tabControl.Items.RemoveAt(i);
+                        tabControl.Items.Refresh();
+                        i--;
+                    }
+                    if (result == MessageBoxResult.No)
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
+                }
             }
         }
 

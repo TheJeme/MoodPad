@@ -22,6 +22,11 @@ namespace MoodPad
             SetConfigureSettings();
         }
 
+        public void ConfigureStyle()
+        {
+            (this.Owner as MainWindow).ConfigureStyle();
+        }
+
         private void SetConfigureSettings()
         {
             themeBox.SelectedIndex = Convert.ToInt16(Settings.Default["ThemeIndex"].ToString());
@@ -94,7 +99,7 @@ namespace MoodPad
                     break;
 
                 case "Pinky":
-                    fontColor = "#E44CD3";
+                    fontColor = "#FF00E2";
                     backgroundColor = "#FFC6F5";                 
                     break;
 
