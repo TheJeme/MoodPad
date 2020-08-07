@@ -75,7 +75,7 @@ namespace MoodPad
 
                 case "Sini":
                     fontColor = "#079ec1";
-                    backgroundColor = "#292F4F";
+                    backgroundColor = "#002B37";
                     break;
 
                 case "Chocolate":

@@ -4,13 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MoodPad"
-        mc:Ignorable="d"    
-        Background="#2D373F"
+        mc:Ignorable="d"
         Title="MoodPad"
         Icon="MoodPad.ico"
         MinHeight="350" MinWidth="360"
         Height="550" Width="750"
         Closing="Window_Closing">
+    <Window.Background>
+        <RadialGradientBrush>
+            <GradientStop Color="#FF2D373F" Offset="0"/>
+            <GradientStop Color="#FF253135" Offset="1.2"/>
+        </RadialGradientBrush>
+    </Window.Background>
 
     <Window.CommandBindings>
         <CommandBinding Command="New" CanExecute="NewFileCommand_CanExecute" Executed="NewFileCommand_Executed"/>
