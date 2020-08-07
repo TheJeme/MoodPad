@@ -34,6 +34,7 @@ namespace MoodPad
                         Settings.Default["CustomFontColor"] = hexColor;
                     }
                     break;
+
                 case "Background":
                     (this.Owner as ConfigureWindow).backgroundColorButton.Background = new SolidColorBrush(Color.FromRgb(ColorPickCanvas.R, ColorPickCanvas.G, ColorPickCanvas.B));
                     Settings.Default["BackgroundColor"] = hexColor;

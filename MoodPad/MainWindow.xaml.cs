@@ -19,7 +19,7 @@ namespace MoodPad
     {
         private int startIndex;
 
-        public List<TextFile> listOfTextBoxes;
+        public List<TextFile> listOfTextFiles;
 
         public static Color fontColor, backgroundColor;
 
@@ -27,7 +27,7 @@ namespace MoodPad
         {
             InitializeComponent();
 
-            listOfTextBoxes = new List<TextFile>();
+            listOfTextFiles = new List<TextFile>();
             MakeNewTab();
 
             ConfigureStyle();
@@ -40,10 +40,10 @@ namespace MoodPad
 
             bugBox.Background = new SolidColorBrush(backgroundColor);
 
-            foreach (var txtbox in listOfTextBoxes)
+            foreach (var txtbox in listOfTextFiles)
             {
-                txtbox.TextBox.Background = new SolidColorBrush(backgroundColor);
                 txtbox.TextBox.Foreground = new SolidColorBrush(fontColor);
+                txtbox.TextBox.Background = new SolidColorBrush(backgroundColor);
                 txtbox.TextBox.FontFamily = new FontFamily(Settings.Default["FontFamily"].ToString());
                 txtbox.TextBox.FontSize = Convert.ToDouble(Settings.Default["FontSize"].ToString());
 
@@ -102,43 +102,67 @@ namespace MoodPad
             tbox.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
             tbox.TextChanged += new TextChangedEventHandler(TextChanged_Event);
             ti.Content = tbox;
-            listOfTextBoxes.Add(new TextFile { TextBox = tbox, Header = headerTextBlock, FilePath = filePath });
+            listOfTextFiles.Add(new TextFile { TextBox = tbox, Header = headerTextBlock, FilePath = filePath, IsSaved = true });
             tabControl.Items.Add(ti);
         }
 
         private void OpenFile()
         {
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "Text Files (*.txt)|*.txt|All files (*.*)|*.*";
+            dlg.Filter = "Text Files (*.txt)|*.txt|All files (*.*)|*.*";  // Default is text files but accepts all kind of files
 
             Nullable<bool> result = dlg.ShowDialog();
 
             if (result.HasValue && result.Value)
             {
-                MakeNewTab(Path.GetFileName(dlg.FileName), File.ReadAllText(dlg.FileName), dlg.FileName);
+                // Checks if file is already opened
+                for (int indexOfTextFile = 0; indexOfTextFile < listOfTextFiles.Count; indexOfTextFile++)
+                {
+                    // If same file is opened already then returns from function but opens it as active tab
+                    if (dlg.FileName == listOfTextFiles[indexOfTextFile].FilePath)
+                    {
+                        tabControl.SelectedIndex = indexOfTextFile;
+                        return;  
+                    }
+                }
+                MakeNewTab(Path.GetFileName(dlg.FileName), File.ReadAllText(dlg.FileName, Encoding.UTF8), dlg.FileName); // Uses UTF-8 to enable most characters
                 ConfigureStyle();
-                //var txtBox = tabControl.SelectedContent as TextBox;
-                //txtBox.Text = File.ReadAllText(dlg.FileName);
+                tabControl.SelectedIndex = listOfTextFiles.Count - 1; // Sets current active tab to just opened one
             }
         }
 
         private void SaveFile()
         {
-            if (listOfTextBoxes[tabControl.SelectedIndex].FilePath == "")
+            if (listOfTextFiles[tabControl.SelectedIndex].FilePath == "")
             {
                 SaveFileDialog dlg = new SaveFileDialog();
                 dlg.Filter = "Text Files (*.txt)|*.txt|All files (*.*)|*.*";
 
                 if (dlg.ShowDialog() == true)
                 {
-                    listOfTextBoxes[tabControl.SelectedIndex].FilePath = dlg.FileName;
-                    listOfTextBoxes[tabControl.SelectedIndex].Header.Text = Path.GetFileName(dlg.FileName);
-                    File.WriteAllText(listOfTextBoxes[tabControl.SelectedIndex].FilePath, listOfTextBoxes[tabControl.SelectedIndex].TextBox.Text);
+                    listOfTextFiles[tabControl.SelectedIndex].FilePath = dlg.FileName;
+                    listOfTextFiles[tabControl.SelectedIndex].Header.Text = Path.GetFileName(dlg.FileName);
+                    File.WriteAllText(listOfTextFiles[tabControl.SelectedIndex].FilePath, listOfTextFiles[tabControl.SelectedIndex].TextBox.Text);
                 }
             }
             else
             {
-                File.WriteAllText(listOfTextBoxes[tabControl.SelectedIndex].FilePath, listOfTextBoxes[tabControl.SelectedIndex].TextBox.Text);
+                File.WriteAllText(listOfTextFiles[tabControl.SelectedIndex].FilePath, listOfTextFiles[tabControl.SelectedIndex].TextBox.Text);
+            }
+            listOfTextFiles[tabControl.SelectedIndex].IsSaved = true;
+        }
+
+        private void SaveAsFile()
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "Text Files (*.txt)|*.txt|All files (*.*)|*.*";
+
+            if (dlg.ShowDialog() == true)
+            {
+                listOfTextFiles[tabControl.SelectedIndex].FilePath = dlg.FileName;
+                listOfTextFiles[tabControl.SelectedIndex].Header.Text = Path.GetFileName(dlg.FileName);
+                File.WriteAllText(listOfTextFiles[tabControl.SelectedIndex].FilePath, listOfTextFiles[tabControl.SelectedIndex].TextBox.Text);
+                listOfTextFiles[tabControl.SelectedIndex].IsSaved = true;
             }
         }
 
@@ -222,7 +246,7 @@ namespace MoodPad
 
         private void SaveAsFileCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
-
+            SaveAsFile();
         }
 
         private void FindCommand_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
@@ -271,13 +295,35 @@ namespace MoodPad
         private void TextChanged_Event(object sender, TextChangedEventArgs e)
         {
             startIndex = 0;
+
+            listOfTextFiles[tabControl.SelectedIndex].IsSaved = false;
         }
 
         private void deleteTabButton_Click(object sender, RoutedEventArgs e)
         {
-            listOfTextBoxes.RemoveAt(tabControl.SelectedIndex);
-            tabControl.Items.Remove(tabControl.SelectedItem);
-            tabControl.Items.Refresh();
+            if (listOfTextFiles[tabControl.SelectedIndex].IsSaved == false)
+            {
+                string msg = "You have not saved. Do you want to close this tab?";
+                MessageBoxResult result =
+                  MessageBox.Show(
+                    msg,
+                    "MoodPad",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    listOfTextFiles.RemoveAt(tabControl.SelectedIndex);
+                    tabControl.Items.Remove(tabControl.SelectedItem);
+                    tabControl.Items.Refresh();
+                }
+            }
+            else
+            {
+                listOfTextFiles.RemoveAt(tabControl.SelectedIndex);
+                tabControl.Items.Remove(tabControl.SelectedItem);
+                tabControl.Items.Refresh();
+            }
         }
     }
 }

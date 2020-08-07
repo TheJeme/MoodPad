@@ -117,7 +117,7 @@ namespace MoodPad
         {
             try
             {
-                foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+                foreach (var txtbox in (this.Owner as MainWindow).listOfTextFiles)
                 {
                     txtbox.TextBox.FontFamily = new FontFamily(fontFamilyBox.SelectedValue.ToString());
                 }
@@ -134,7 +134,7 @@ namespace MoodPad
         {
             try
             {
-                foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+                foreach (var txtbox in (this.Owner as MainWindow).listOfTextFiles)
                 {
                     txtbox.TextBox.FontSize = Convert.ToDouble(fontSizeBox.SelectedValue.ToString());
                 }
@@ -170,7 +170,7 @@ namespace MoodPad
 
         private void BoldBox_Checked(object sender, RoutedEventArgs e)
         {
-            foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+            foreach (var txtbox in (this.Owner as MainWindow).listOfTextFiles)
             {
                 txtbox.TextBox.FontWeight = FontWeights.Bold;
             }
@@ -180,7 +180,7 @@ namespace MoodPad
 
         private void BoldBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+            foreach (var txtbox in (this.Owner as MainWindow).listOfTextFiles)
             {
                 txtbox.TextBox.FontWeight = FontWeights.Normal;
             }
@@ -190,7 +190,7 @@ namespace MoodPad
 
         private void ItalicBox_Checked(object sender, RoutedEventArgs e)
         {
-            foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+            foreach (var txtbox in (this.Owner as MainWindow).listOfTextFiles)
             {
                 txtbox.TextBox.FontStyle = FontStyles.Italic;
             }
@@ -200,7 +200,7 @@ namespace MoodPad
 
         private void ItalicBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+            foreach (var txtbox in (this.Owner as MainWindow).listOfTextFiles)
             {
                 txtbox.TextBox.FontStyle = FontStyles.Normal;
             }
@@ -210,7 +210,7 @@ namespace MoodPad
 
         private void UnderlinedBox_Checked(object sender, RoutedEventArgs e)
         {
-            foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+            foreach (var txtbox in (this.Owner as MainWindow).listOfTextFiles)
             {
                 txtbox.TextBox.TextDecorations = TextDecorations.Underline;
             }
@@ -220,7 +220,7 @@ namespace MoodPad
 
         private void UnderlinedBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+            foreach (var txtbox in (this.Owner as MainWindow).listOfTextFiles)
             {
                 txtbox.TextBox.TextDecorations = null;
             }
@@ -230,7 +230,7 @@ namespace MoodPad
 
         private void WrapTextBox_Checked(object sender, RoutedEventArgs e)
         {
-            foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+            foreach (var txtbox in (this.Owner as MainWindow).listOfTextFiles)
             {
                 txtbox.TextBox.TextWrapping = TextWrapping.Wrap;
             }
@@ -240,7 +240,7 @@ namespace MoodPad
 
         private void WrapTextBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            foreach (var txtbox in (this.Owner as MainWindow).listOfTextBoxes)
+            foreach (var txtbox in (this.Owner as MainWindow).listOfTextFiles)
             {
                 txtbox.TextBox.TextWrapping = TextWrapping.NoWrap;
             }
